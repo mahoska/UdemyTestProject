@@ -6,6 +6,7 @@
     <summarizedField>Cart_Item__c.Item_Quantity__c</summarizedField>
     <summaryForeignKey>Cart_Item__c.Beer__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Summary</type>
 </CustomField>
