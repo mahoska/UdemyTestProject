@@ -1,0 +1,30 @@
+<!--
+  @File Name          : beerTile.html
+  @Description        : 
+  @Author             : Anna Makhovskaya
+  @Group              : 
+  @Last Modified By   : Anna Makhovskaya
+  @Last Modified On   : 27.04.2020, 15:52:28
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    27.04.2020   Anna Makhovskaya     Initial Version
+-->
+<template>
+    <lightning-card title={beerRecord.Name} icon-name="custom:custom54">
+        <div class="slds-m-around_small">
+            <p>
+                <img src={beerRecord.Image__c} width="300" height="150" />
+            </p>
+            <p>
+                <strong>Beer Id : </strong> {beerRecord.Id}<br/>
+                <strong>Alcohol % : </strong> {beerRecord.Alcohol__c}<br/>
+                <strong>Price : </strong> {beerRecord.Price__c}<br/>
+                <strong>Brewery Name : </strong> {beerRecord.brewery_Name__c}<br/>
+            </p>
+            <p class="slds-m-around_small">
+                <lightning-button label="Add to Card" variant="brand" onclick={handleAddToCart}></lightning-button>
+            </p>
+        </div>
+
+    </lightning-card>
+</template>
