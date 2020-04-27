@@ -1,0 +1,14 @@
+{
+  "orgName": "udemyLearnOrg",
+  "edition": "Developer",
+  "features": [],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "emailAdministrationSettings": {
+      "enableSendViaExchangePref": false,
+      "enableSendViaGmailPref": false
+    }
+    }
+}
