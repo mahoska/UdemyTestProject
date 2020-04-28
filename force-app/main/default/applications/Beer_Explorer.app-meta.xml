@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#F1FD09</headerColor>
+        <logo>JCTB_Beer</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Beer Explorer</label>
+    <navType>Standard</navType>
+    <tabs>Beer_Explorer</tabs>
+    <tabs>Beer__c</tabs>
+    <tabs>Cart__c</tabs>
+    <tabs>Cart_Item__c</tabs>
+    <tabs>Coupon__c</tabs>
+    <tabs>Address_Book__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Beer_Explorer_UtilityBar</utilityBar>
+</CustomApplication>

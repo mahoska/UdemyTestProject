@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
+        <application>Beer_Explorer</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>standard__AppLauncher</application>
         <default>false</default>
         <visible>true</visible>
@@ -368,6 +373,12 @@
     <layoutAssignments>
         <layout>Beer__c-Beer Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Cart__c-Cart Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Coupon__c-Coupon Layout</layout>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -442,6 +453,10 @@
     </objectPermissions>
     <tabVisibilities>
         <tab>Address_Book__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Beer_Explorer</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
