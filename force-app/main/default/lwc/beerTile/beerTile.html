@@ -4,12 +4,13 @@
   @Author             : Anna Makhovskaya
   @Group              : 
   @Last Modified By   : Anna Makhovskaya
-  @Last Modified On   : 27.04.2020, 15:52:28
+  @Last Modified On   : 27.04.2020, 18:37:55
   @Modification Log   : 
   Ver       Date            Author      		    Modification
   1.0    27.04.2020   Anna Makhovskaya     Initial Version
 -->
 <template>
+    <template if:true={beerRecord}>
     <lightning-card title={beerRecord.Name} icon-name="custom:custom54">
         <div class="slds-m-around_small">
             <p>
@@ -27,4 +28,5 @@
         </div>
 
     </lightning-card>
+</template>
 </template>
