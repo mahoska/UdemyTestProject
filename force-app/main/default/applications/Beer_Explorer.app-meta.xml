@@ -13,6 +13,7 @@
     <label>Beer Explorer</label>
     <navType>Standard</navType>
     <tabs>Beer_Explorer</tabs>
+    <tabs>Cart_Detail</tabs>
     <tabs>Beer__c</tabs>
     <tabs>Cart__c</tabs>
     <tabs>Cart_Item__c</tabs>

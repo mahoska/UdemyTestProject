@@ -464,6 +464,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Cart_Detail</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Cart_Item__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
