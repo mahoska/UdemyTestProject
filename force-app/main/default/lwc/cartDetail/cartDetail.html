@@ -1,0 +1,98 @@
+<!--
+  @File Name          : cartDetail.html
+  @Description        : 
+  @Author             : Anna Makhovskaya
+  @Group              : 
+  @Last Modified By   : Anna Makhovskaya
+  @Last Modified On   : 05.05.2020, 12:36:04
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    04.05.2020   Anna Makhovskaya     Initial Version
+-->
+<template>
+    <lightning-card title="Cart Detail" icon-name="utility:cart">
+        <div class="slds-m-around_small">
+            <div class="c-container ">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-layout>
+                            <lightning-layout-item  size="9" style="background: lightblue; ">
+                                <div class="page-section page-main">
+                                    <h2 class="slds-text-title_caps" style="height: 55px;
+                                                background: darkseagreen;
+                                                line-height: 3;
+                                                padding-left: 10px;
+                                                font-size: 19px;
+                                                font-weight: bold;">
+                                        SHOPPING CART( {totalItems} items)
+                                    </h2>
+                                    <template if:true={Items}>
+                                        <div class="slds-grid slds-wrap slds-m-top_small ">
+                                            <div class="slds-col slds-size_1-of-4" style="padding-left:5px;">Item Name</div>
+                                            <div class="slds-col slds-size_1-of-4"><b>Price</b></div>
+                                            <div class="slds-col slds-size_1-of-4"><b>Quantity</b></div>
+                                            <div class="slds-col slds-size_1-of-4"> </div>
+                                        </div>
+                                        <div>
+                                            <template for:each={Items} for:item="cart">
+                                                <c-cart-item item={cart} key={cart.Id} ondelete={handleDeleteItem}></c-cart-item>
+                                            </template>
+                                        </div>
+                                        <div class="slds-m-top_medium slds-m-bottom_small" style="margin-left:5px;">
+                                            <lightning-button-group>
+                                                <lightning-button label="Continue Shopping"
+                                                    variant="natural"
+                                                    onclick={handleContinue}
+                                                ></lightning-button> 
+                                                <lightning-button label="Proceed Checkout"
+                                                    variant="brand"
+                                                    onclick={handleProceed}
+                                                ></lightning-button>
+                                            </lightning-button-group>
+                                        </div>
+                                    </template>
+                                    <template if:false={Items}>
+                                        <h2> There are no items in your cart</h2>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item  size="3" style="background: lightblue;">
+                                <div class="page-section page-right slds-m-left_small">
+                                        <div class="slds-m-top_small slds-box slds-m-right_small">
+                                            <b>Subtotal ({totalItems} items):</b>
+                                            &nbsp;
+                                            <lightning-formatted-number 
+                                                currency-code="USD"
+                                                format-style="currency"
+                                                currency-display-as="symbol"
+                                                maximum-fraction-digits="2"
+                                                value={totalAmount} >
+                                            </lightning-formatted-number>
+                                        </div>
+                                        <div class="slds-m-top_small">
+                                            <strong>Have a coupon? </strong>
+                                            <a href="JavaScript:void(0);" onclick={handleCoupon} >
+                                                Apply Here
+                                            </a>
+                                        </div>
+                                        <div class="slds-m-top_small">
+                                            <lightning-button-group>
+                                                <lightning-button label="Continue Shopping"
+                                                    variant="natural"
+                                                    onclick={handleContinue}
+                                                ></lightning-button> 
+                                                <lightning-button label="Proceed Checkout"
+                                                    variant="brand"
+                                                    onclick={handleProceed}
+                                                ></lightning-button>
+                                            </lightning-button-group>
+                                        </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+    </lightning-card>
+</template>
