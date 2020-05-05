@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 04.05.2020, 18:58:16
+ * @Last Modified On   : 05.05.2020, 14:29:24
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    27.04.2020   Anna Makhovskaya     Initial Version
@@ -29,13 +29,20 @@ public with sharing class BeerController {
         
     }
 
+    @AuraEnabled
+    public static Coupon__c couponInfo(String name){
 
-    public static String getCouponInformation(String name){
+        Coupon__c Coupon = getCouponInformation(name);
+        return Coupon;
+        
+    }
+
+    public static Coupon__c  getCouponInformation(String name){
         Coupon__c couponRec = [SELECT Id, Name, Price__c
-        FROM Coupon__c
-        WHERE Expired__c = false AND Name = :name];
+                                FROM Coupon__c
+                                WHERE Expired__c = false AND (Remaining_Quantity__c > 0 OR Name ='Default') AND Name = :name];
 
-        return couponRec.Id;
+        return couponRec;
     }
 
 
@@ -82,11 +89,12 @@ public with sharing class BeerController {
 
         }else{
             Cart__c defaultCart = new Cart__c();
-            String couponId =  getCouponInformation('Default');
-            defaultCart.Cart_Id__c = generateCardId();
+            Coupon__c  coupon =  getCouponInformation('Default');
+            
+            defaultCart.Cart_Id__c = String.valueOf(Math.random());//generateCardId();
             defaultCart.Cart_Status__c = 'Open';
             defaultCart.Is_Active__c = true;
-            defaultCart.Coupon__c = couponId;
+            defaultCart.Coupon__c = coupon.Id;
             defaultCart.User__c = UserInfo.getUserId();
 
             insert defaultCart;

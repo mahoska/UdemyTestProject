@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 05.05.2020, 12:53:52
+ * @Last Modified On   : 05.05.2020, 14:21:32
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -13,6 +13,7 @@ import { LightningElement, wire, track } from 'lwc';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import getItems from '@salesforce/apex/BeerController.getItems';
 import { deleteRecord } from 'lightning/uiRecordApi';
+import couponInfo from '@salesforce/apex/BeerController.couponInfo';
 export default class CartDetail extends NavigationMixin(LightningElement) {
 
     @track cartid;
@@ -20,6 +21,12 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
     @track errors;
     @track totalItems;
     @track totalAmount = 0.00;
+    @track isCoupon = false;
+    @track couponName;
+    @track couponValue = 0;
+
+
+
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.cartid = currentPageReference.state.c__cartId;
@@ -31,13 +38,21 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
         this.cartItems();
     }
 
+
+    handleChangeCoupon(event) {
+        this.couponName = event.target.value;
+    }
+
+
     handleProceed() {
 
     }
 
     handleDeleteItem(event) {
         const selectedItemId = event.detail;
-
+        // [1,2,3,55,]
+        // index => 2
+        // splice(index, 1);
         const selectedItem = this.Items.find(
             item => item.Id === selectedItemId
         );
@@ -50,6 +65,7 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
                 console.log('Item deleted');
                 this.Items.splice(indexItem, 1);
                 this.totalAmount = this.totalAmount - selectedItem.Total_Amount__c;
+                this.totalItems = this.totalItems - 1;
             })
             .catch(error => {
                 console.log(error);
@@ -91,6 +107,30 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
     }
 
     handleCoupon() {
+        this.isCoupon = true;
+    }
+
+    applyCoupon() {
+        if (!this.couponName) {
+            alert(' Please Provide a Valid Coupon!!! ');
+            return;
+        }
+        if (this.couponName) {
+            couponInfo({
+                name: this.couponName
+            })
+                .then(result => {
+                    console.log(' Result is ', result);
+                    this.couponValue = result.Price__c;
+                    this.totalAmount = this.totalAmount - this.couponValue;
+                })
+                .catch(error => {
+                    console.log(' Error ', error);
+                    alert(' Please Provide a Valid Coupon!! ');
+                    this.totalAmount = this.totalAmount + this.couponValue;
+                    this.couponValue = 0;
+                });
+        }
 
     }
 

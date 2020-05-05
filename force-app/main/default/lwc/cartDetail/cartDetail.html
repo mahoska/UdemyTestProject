@@ -4,7 +4,7 @@
   @Author             : Anna Makhovskaya
   @Group              : 
   @Last Modified By   : Anna Makhovskaya
-  @Last Modified On   : 05.05.2020, 12:36:04
+  @Last Modified On   : 05.05.2020, 14:21:01
   @Modification Log   : 
   Ver       Date            Author      		    Modification
   1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -75,6 +75,39 @@
                                                 Apply Here
                                             </a>
                                         </div>
+                                        <!--section coupon-->
+                                        <div>
+                                            <template if:true={isCoupon}>
+                                                <lightning-input type="text"
+                                                    label="Provide Valid Coupon"
+                                                    value={couponName}
+                                                    onchange={handleChangeCoupon}
+                                                    onkeydown={handleChangeCoupon}
+                                                    onkeypress={handleChangeCoupon}
+                                                    onkeyup={handleChangeCoupon}
+                                                    onblur={handleChangeCoupon}
+                                                ></lightning-input>
+                                                <p class="slds-m-top_small"> 
+                                                    <lightning-button label="Apply Coupon"
+                                                      onclick={applyCoupon}
+                                                      variant="brand" ></lightning-button>
+                                                </p>
+                                            </template>
+                                            <template if:true={couponValue} >
+                                                Coupon &nbsp;
+                                                <lightning-formatted-number 
+                                                    currency-code="USD"
+                                                    format-style="currency"
+                                                    currency-display-as="symbol"
+                                                    maximum-fraction-digits="2"
+                                                    value={couponValue} >
+                                                </lightning-formatted-number>
+                                                &nbsp;
+                                                applied successfully
+                                            </template>
+                                            
+                                        </div>
+
                                         <div class="slds-m-top_small">
                                             <lightning-button-group>
                                                 <lightning-button label="Continue Shopping"
