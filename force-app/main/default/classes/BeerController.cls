@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 05.05.2020, 14:29:24
+ * @Last Modified On   : 05.05.2020, 16:08:06
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    27.04.2020   Anna Makhovskaya     Initial Version
@@ -159,6 +159,33 @@ public static string getItems(String cartId){
                             Where Cart__c =: cartId];
     return JSON.serialize(items);
 }
+
+@AuraEnabled
+public static Address_Book__c saveAddress(String addressDetails){
+    // {City__c : '', State__c : ''}
+    Address_Book__c addressInfo = (Address_Book__c)JSON.deserialize(addressDetails,
+                                                    Address_Book__c.class);
+    // Address_Book__c addrs = new Address_Book__c()
+    // addrs.City__c = '';
+    // addrs.State__c = '';
+    // 1 - String whihch contains information in form of Object
+    // 2 - Actual Object/Apex Class
+    // 3 - (Account)JSON.deserialize(addressDetails,Account.class);
+    addressInfo.User__c = UserInfo.getUserId();
+    insert addressInfo;
+    return addressInfo;
+}
+
+@AuraEnabled
+    public static List<Address_Book__c> addressDetails(){
+        List<Address_Book__c> addressList = [SELECT Id, City__c, Country__c, 
+                                                    Postal_Code__c, State__c, 
+                                                    Street__c, User__c 
+                                                    FROM Address_Book__c
+                                                Where User__c != null 
+                                                AND User__c =: UserInfo.getUserId()];
+        return addressList;
+    }
 
     public class CartWrapper {
         @AuraEnabled

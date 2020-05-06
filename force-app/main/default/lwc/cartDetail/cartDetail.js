@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 05.05.2020, 14:21:32
+ * @Last Modified On   : 05.05.2020, 16:18:02
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -14,6 +14,9 @@ import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import getItems from '@salesforce/apex/BeerController.getItems';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import couponInfo from '@salesforce/apex/BeerController.couponInfo';
+import empty_cart from '@salesforce/resourceUrl/empty_cart';
+import addressDetails from '@salesforce/apex/BeerController.addressDetails';
+import saveAddress from '@salesforce/apex/BeerController.saveAddress';
 export default class CartDetail extends NavigationMixin(LightningElement) {
 
     @track cartid;
@@ -24,7 +27,19 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
     @track isCoupon = false;
     @track couponName;
     @track couponValue = 0;
+    @track addressess;
+    emptyCart = empty_cart;
+    @track isProceed = false;
+    @track addressId;
+    @track totalAddress = 0;
 
+    @track addr = {
+        City__c: '',
+        Country__c: '',
+        Postal_Code__c: '',
+        State__c: '',
+        Street__c: ''
+    };
 
 
     @wire(CurrentPageReference)
@@ -36,6 +51,52 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         this.cartItems();
+        this.getAddressDetails();
+    }
+
+    handleAddressSelect(event) {
+        const selectedAddressId = event.detail;
+        this.addressId = selectedAddressId;
+        console.log('this.addressId ', this.addressId);
+    }
+
+    handleSaveAddress() {
+        saveAddress({
+            addressDetails: JSON.stringify(this.addr)
+        })
+            .then(result => {
+                if (this.addressess) {
+                    console.log('result Addrsss are avalible ', result);
+                    this.addressess.push(result);
+                } else {
+                    console.log('result Address No ', result);
+                    this.addressess = [];
+                    this.addressess.push(result);
+                }
+                this.totalAddress = 1;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+    handleAddNewAddress() {
+        this.totalAddress = 0;
+    }
+    handleInputChange(event) {
+        const name = event.target.name; // City__c
+        const value = event.target.value; // New York
+        this.addr[name] = value; // this.addr[City__c] = New York
+    }
+
+    getAddressDetails() {
+        addressDetails()
+            .then(result => {
+                this.addressess = result;
+                this.totalAddress = result.length;
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
 
@@ -45,7 +106,7 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
 
 
     handleProceed() {
-
+        this.isProceed = true;
     }
 
     handleDeleteItem(event) {
