@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 06.05.2020, 13:02:45
+ * @Last Modified On   : 06.05.2020, 14:03:28
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    27.04.2020   Anna Makhovskaya     Initial Version
@@ -188,6 +188,33 @@ public static Address_Book__c saveAddress(String addressDetails){
     }
 
     @AuraEnabled
+    public static OrderWrapper orderDetails(String orderId){
+        Order__c orderInfo = [
+            Select Id, Name, User__c, Shipping_Address__c,subTotal__c,
+            Shipping_Address__r.Street__c, Shipping_Address__r.City__c,
+            Shipping_Address__r.Country__c,
+            Shipping_Address__r.State__c,
+            Shipping_Address__r.Postal_Code__c,
+            (
+                Select Id, Name,
+                Beer__r.Name,
+                Ordered_Quantity__c,
+                Item_Price__c
+                From Order_Items__r
+            )
+            From Order__c
+            Where Id =: orderId
+        ];
+        OrderWrapper wrapper = new OrderWrapper();
+        wrapper.order = orderInfo;
+        wrapper.Orderitems = orderInfo.Order_Items__r;
+        // orderInfo.Order_Items__r => List<Order_Item__c> => null
+        return wrapper;
+    }
+
+
+
+    @AuraEnabled
     public static Order__c createOrder(String cartId, string addressId, Decimal totalAmount){
         Order__c orderInfo = new Order__c();
         orderInfo.User__c = UserInfo.getUserId();
@@ -229,6 +256,13 @@ public static Address_Book__c saveAddress(String addressDetails){
         public Decimal Count {get;set;}
         @AuraEnabled
         public List<Cart_Item__c> items {get;set;}
+    }
+
+    public class OrderWrapper {
+        @AuraEnabled
+        public Order__c order                     { get; set; }
+        @AuraEnabled
+        public List<Order_Item__c> Orderitems     { get; set; }
     }
 
 }

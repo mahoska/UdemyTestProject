@@ -486,6 +486,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Order_Detail</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Order__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>

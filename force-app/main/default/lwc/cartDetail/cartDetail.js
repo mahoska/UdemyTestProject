@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 06.05.2020, 12:21:23
+ * @Last Modified On   : 06.05.2020, 14:04:46
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -87,6 +87,16 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
                     "variant": "success",
                 });
                 this.dispatchEvent(toast);
+
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__navItemPage',
+                    attributes: {
+                        apiName: 'Order_Detail'
+                    },
+                    state: {
+                        c__orderId: result.Id
+                    }
+                }, true);
             })
             .catch(error => {
                 console.error(error);
