@@ -371,6 +371,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
+        <layout>Address_Book__c-Address Book Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Beer__c-Beer Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -378,6 +381,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Coupon__c-Coupon Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Order__c-Order Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -477,6 +483,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Coupon__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Order__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <userLicense>Salesforce</userLicense>
