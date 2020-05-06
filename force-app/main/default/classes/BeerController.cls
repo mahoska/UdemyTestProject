@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 06.05.2020, 12:23:05
+ * @Last Modified On   : 06.05.2020, 13:02:45
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    27.04.2020   Anna Makhovskaya     Initial Version
@@ -196,7 +196,26 @@ public static Address_Book__c saveAddress(String addressDetails){
         orderInfo.subTotal__c = totalAmount;
         insert orderInfo; 
 
-        
+        List<Cart_Item__c> cartItems = (List<Cart_Item__c>)JSON.deserialize( getItems(cartId),
+                                                                List<Cart_Item__c>.class);
+
+        List<Order_Item__c> orderItems = new List<Order_Item__c>();
+        For (Cart_Item__c item : cartItems){
+            Order_Item__c oItem = new Order_Item__c();
+            oItem.Beer__c = item.Beer__c;
+            oItem.Related_Order__c = orderInfo.Id;
+            oItem.Ordered_Quantity__c = item.Item_Quantity__c;
+            oItem.Item_Price__c = item.Item_Amount__c;
+            orderItems.add(oItem);
+        }
+        insert orderItems; 
+
+        Cart__c cart = new Cart__c();
+        cart.Id = cartId;
+        cart.Cart_Status__c = 'Closed';
+        cart.Is_Active__c = false;
+        update cart;
+
 
         Order__c order = [Select Id, Name From Order__c Where Id =:orderInfo.Id];
         return order;
