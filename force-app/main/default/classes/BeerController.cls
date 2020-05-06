@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 05.05.2020, 16:08:06
+ * @Last Modified On   : 06.05.2020, 12:23:05
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    27.04.2020   Anna Makhovskaya     Initial Version
@@ -186,6 +186,22 @@ public static Address_Book__c saveAddress(String addressDetails){
                                                 AND User__c =: UserInfo.getUserId()];
         return addressList;
     }
+
+    @AuraEnabled
+    public static Order__c createOrder(String cartId, string addressId, Decimal totalAmount){
+        Order__c orderInfo = new Order__c();
+        orderInfo.User__c = UserInfo.getUserId();
+        orderInfo.Cart__c = cartId;
+        orderInfo.Shipping_Address__c = addressId;
+        orderInfo.subTotal__c = totalAmount;
+        insert orderInfo; 
+
+        
+
+        Order__c order = [Select Id, Name From Order__c Where Id =:orderInfo.Id];
+        return order;
+    }
+    
 
     public class CartWrapper {
         @AuraEnabled

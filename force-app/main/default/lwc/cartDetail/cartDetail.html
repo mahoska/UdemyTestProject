@@ -4,7 +4,7 @@
   @Author             : Anna Makhovskaya
   @Group              : 
   @Last Modified By   : Anna Makhovskaya
-  @Last Modified On   : 05.05.2020, 16:15:23
+  @Last Modified On   : 06.05.2020, 12:28:45
   @Modification Log   : 
   Ver       Date            Author      		    Modification
   1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -19,6 +19,8 @@
                             <template if:true={isProceed}>
                                 <lightning-layout-item size="9">
                                     <div class="page-section page-main">
+                                        <div class="slds-grid slds-wrap slds-m-top_small">
+                                        <div class="slds-col slds-size_1-of-2">
                                         <template if:true={totalAddress}>
                                             <template for:each={addressess} for:item="addr">
                                                 <c-address-component onaddress={handleAddressSelect} 
@@ -29,8 +31,34 @@
                                                 <lightning-button label="Add New Address" variant="brand"
                                                      onclick={handleAddNewAddress} >
                                                 </lightning-button>
+                                                &nbsp;
+                                                <lightning-button label="Place Order" 
+                                                    variant="brand"
+                                                    onclick={placeOrder}
+                                                >
+                                                </lightning-button>
                                             </div>
                                         </template>
+                                        </div>
+                                        <template if:true={selectedAddress}>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <strong>
+                                                    Your Items will be delived to the
+                                                    following address :
+                                                </strong>
+                                                <br />
+                                                <lightning-formatted-address 
+                                                    street={selectedAddress.Street__c}
+                                                    city={selectedAddress.City__c}
+                                                    country={selectedAddress.Country__c}
+                                                    postal-code={selectedAddress.Postal_Code__c}
+                                                    province={selectedAddress.State__c} 
+                                                    disabled>
+                                                </lightning-formatted-address>
+                                            </div>
+                                    </template>
+                                    
+                                </div>
                                         <template if:false={totalAddress}>
                                             <lightning-input value={addr.Street__c}
                                                 label="Street"

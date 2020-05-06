@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 05.05.2020, 16:18:02
+ * @Last Modified On   : 06.05.2020, 12:21:23
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -17,6 +17,8 @@ import couponInfo from '@salesforce/apex/BeerController.couponInfo';
 import empty_cart from '@salesforce/resourceUrl/empty_cart';
 import addressDetails from '@salesforce/apex/BeerController.addressDetails';
 import saveAddress from '@salesforce/apex/BeerController.saveAddress';
+import createOrder from '@salesforce/apex/BeerController.createOrder';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 export default class CartDetail extends NavigationMixin(LightningElement) {
 
     @track cartid;
@@ -32,6 +34,7 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
     @track isProceed = false;
     @track addressId;
     @track totalAddress = 0;
+    @track selectedAddress;
 
     @track addr = {
         City__c: '',
@@ -57,7 +60,37 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
     handleAddressSelect(event) {
         const selectedAddressId = event.detail;
         this.addressId = selectedAddressId;
-        console.log('this.addressId ', this.addressId);
+
+        this.selectedAddress = this.addressess.find(
+            record => record.Id === selectedAddressId
+        );
+
+        //console.log('this.addressId ', this.addressId);
+    }
+
+
+    placeOrder() {
+        if (!this.selectedAddress) {
+            alert('Please select shipping address !!');
+            return;
+        }
+        createOrder({
+            cartId: this.cartid,
+            addressId: this.selectedAddress.Id,
+            totalAmount: this.totalAmount
+        })
+            .then(result => {
+                console.log(' Order Information is ', result);
+                const toast = new ShowToastEvent({
+                    'title': 'Success!!',
+                    "message": 'Order has beed successfully placed. Your Order no is ' + result.Name,
+                    "variant": "success",
+                });
+                this.dispatchEvent(toast);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     handleSaveAddress() {
@@ -79,9 +112,13 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
                 console.error(error);
             });
     }
+
+
     handleAddNewAddress() {
         this.totalAddress = 0;
     }
+
+
     handleInputChange(event) {
         const name = event.target.name; // City__c
         const value = event.target.value; // New York
