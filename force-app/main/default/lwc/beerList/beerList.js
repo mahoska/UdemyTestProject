@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 04.05.2020, 15:29:13
+ * @Last Modified On   : 06.05.2020, 16:39:09
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    28.04.2020   Anna Makhovskaya     Initial Version
@@ -24,9 +24,11 @@ export default class BeerList extends NavigationMixin(LightningElement) {
     @track cartId;
     @track itemsInCart = 0;
 
+
     connectedCallback() {
         this.defaultCartId();
     }
+
 
     defaultCartId() {
         getCardId()
@@ -43,8 +45,10 @@ export default class BeerList extends NavigationMixin(LightningElement) {
             })
     }
 
+
     @wire(searchBeer)
     wireRecords({ error, data }) {
+
         if (data) {
             this.beerRecords = data;
             this.errors = undefined;
@@ -57,16 +61,16 @@ export default class BeerList extends NavigationMixin(LightningElement) {
 
     handleEvent(event) {
         const eventVal = event.detail;
-        console.log('Search Param', eventVal);
+        //console.log('Search Param', eventVal);
 
         searchBeer({
             searchParam: eventVal
         }).then(result => {
-            console.log('Beer Records', result);
+            //console.log('Beer Records', result);
             this.beerRecords = result;
             this.errors = undefined;
         }).catch(error => {
-            console.log('Errors', error);
+            //console.log('Errors', error);
             this.beerRecords = undefined;
             this.errors = error;
         })
@@ -75,12 +79,12 @@ export default class BeerList extends NavigationMixin(LightningElement) {
 
     addToCart(event) {
         const selectBeerId = event.detail;
-        console.log('selectBeerId', selectBeerId);
+        // console.log('selectBeerId', selectBeerId);
 
         const selectBeerRecord = this.beerRecords.find(
             record => record.Id === selectBeerId
         );
-        console.log('selectBeerRecord', selectBeerRecord);
+        //console.log('selectBeerRecord', selectBeerRecord);
         /*
         for(Beer__c beer : beerRecords){
             if(beer.Id == selectedBeerId){
@@ -94,8 +98,9 @@ export default class BeerList extends NavigationMixin(LightningElement) {
             Amount: selectBeerRecord.Price__c
         })
             .then(data => {
-                console.log('Cart Item Id : ', data);
+                //console.log('Cart Item Id : ', data);
                 this.itemsInCart = this.itemsInCart + 1;
+
                 const toast = new ShowToastEvent({
                     'title': 'Success!!!',
                     "message": selectBeerRecord.Name + ' added into Cart!',
@@ -105,7 +110,7 @@ export default class BeerList extends NavigationMixin(LightningElement) {
                 this.dispatchEvent(toast);
             })
             .catch(error => {
-                console.log(error);
+                //console.log(error);
                 const toast = new ShowToastEvent({
                     'title': 'Error!!!',
                     "message": JSON.stringify(error),

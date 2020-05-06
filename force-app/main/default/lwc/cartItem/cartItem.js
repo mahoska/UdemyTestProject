@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 05.05.2020, 12:34:44
+ * @Last Modified On   : 06.05.2020, 16:53:44
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -21,6 +21,7 @@ export default class CartItem extends LightningElement {
                 detail: this.item.Id
             }
         );
+
         this.dispatchEvent(deleteEvent);
     }
 }

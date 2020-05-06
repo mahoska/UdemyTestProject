@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 06.05.2020, 14:04:46
+ * @Last Modified On   : 06.05.2020, 16:51:36
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -48,24 +48,13 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.cartid = currentPageReference.state.c__cartId;
-        console.log(' Cart Id => ', this.cartid);
+        //console.log(' Cart Id => ', this.cartid);
     }
 
 
     connectedCallback() {
         this.cartItems();
         this.getAddressDetails();
-    }
-
-    handleAddressSelect(event) {
-        const selectedAddressId = event.detail;
-        this.addressId = selectedAddressId;
-
-        this.selectedAddress = this.addressess.find(
-            record => record.Id === selectedAddressId
-        );
-
-        //console.log('this.addressId ', this.addressId);
     }
 
 
@@ -80,7 +69,7 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
             totalAmount: this.totalAmount
         })
             .then(result => {
-                console.log(' Order Information is ', result);
+                //console.log(' Order Information is ', result);
                 const toast = new ShowToastEvent({
                     'title': 'Success!!',
                     "message": 'Order has beed successfully placed. Your Order no is ' + result.Name,
@@ -103,16 +92,28 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
             });
     }
 
+    handleAddressSelect(event) {
+        const selectedAddressId = event.detail;
+        this.addressId = selectedAddressId;
+
+        this.selectedAddress = this.addressess.find(
+            record => record.Id === selectedAddressId
+        );
+
+        //console.log('this.addressId ', this.addressId);
+    }
+
+
     handleSaveAddress() {
         saveAddress({
             addressDetails: JSON.stringify(this.addr)
         })
             .then(result => {
                 if (this.addressess) {
-                    console.log('result Addrsss are avalible ', result);
+                    //console.log('result Addrsss are avalible ', result);
                     this.addressess.push(result);
                 } else {
-                    console.log('result Address No ', result);
+                    //console.log('result Address No ', result);
                     this.addressess = [];
                     this.addressess.push(result);
                 }
@@ -135,6 +136,7 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
         this.addr[name] = value; // this.addr[City__c] = New York
     }
 
+
     getAddressDetails() {
         addressDetails()
             .then(result => {
@@ -144,11 +146,6 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
             .catch(error => {
                 console.error(error);
             });
-    }
-
-
-    handleChangeCoupon(event) {
-        this.couponName = event.target.value;
     }
 
 
@@ -166,11 +163,11 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
         );
 
         const indexItem = this.Items.indexOf(selectedItem);
-        console.log(indexItem);
+        //console.log(indexItem);
 
         deleteRecord(selectedItemId)
             .then(() => {
-                console.log('Item deleted');
+                //console.log('Item deleted');
                 this.Items.splice(indexItem, 1);
                 this.totalAmount = this.totalAmount - selectedItem.Total_Amount__c;
                 this.totalItems = this.totalItems - 1;
@@ -179,6 +176,7 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
                 console.log(error);
             })
     }
+
 
     handleContinue() {
         this[NavigationMixin.Navigate]({
@@ -192,12 +190,13 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
         });
     }
 
+
     cartItems() {
         getItems({
             cartId: this.cartid
         })
             .then(result => {
-                console.log(' Cart Items ', JSON.parse(result));
+                //console.log(' Cart Items ', JSON.parse(result));
                 this.Items = JSON.parse(result);
                 this.totalItems = this.Items.length;
                 this.errors = undefined;
@@ -214,8 +213,13 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
             });
     }
 
+
     handleCoupon() {
         this.isCoupon = true;
+    }
+
+    handleChangeCoupon(event) {
+        this.couponName = event.target.value;
     }
 
     applyCoupon() {
@@ -228,18 +232,17 @@ export default class CartDetail extends NavigationMixin(LightningElement) {
                 name: this.couponName
             })
                 .then(result => {
-                    console.log(' Result is ', result);
+                    //console.log(' Result is ', result);
                     this.couponValue = result.Price__c;
                     this.totalAmount = this.totalAmount - this.couponValue;
                 })
                 .catch(error => {
-                    console.log(' Error ', error);
+                    //console.log(' Error ', error);
                     alert(' Please Provide a Valid Coupon!! ');
                     this.totalAmount = this.totalAmount + this.couponValue;
                     this.couponValue = 0;
                 });
         }
-
     }
 
 }

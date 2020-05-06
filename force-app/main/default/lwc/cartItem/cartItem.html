@@ -4,7 +4,7 @@
   @Author             : Anna Makhovskaya
   @Group              : 
   @Last Modified By   : Anna Makhovskaya
-  @Last Modified On   : 05.05.2020, 12:32:45
+  @Last Modified On   : 06.05.2020, 16:53:28
   @Modification Log   : 
   Ver       Date            Author      		    Modification
   1.0    04.05.2020   Anna Makhovskaya     Initial Version
@@ -29,16 +29,17 @@
             </div>
             <div class="slds-col slds-size_1-of-4">
                 <lightning-input type="number" 
-                    value={item.Item_Quantity__c} 
-                    min="1"
-                    step="1"
-                >
+                                value={item.Item_Quantity__c} 
+                                min="1"
+                                step="1">
                 </lightning-input>
             </div>
             <div class="slds-col slds-size_1-of-4 slds-p-left_x-large slds-m-top_small">
-                <lightning-button value="Delete" label="Delete" icon-name="action:delete" 
-                        variant="destructive" onclick={handleDelete}>
-
+                <lightning-button value="Delete" 
+                                    label="Delete" 
+                                    icon-name="action:delete" 
+                                    variant="destructive" 
+                                    onclick={handleDelete}>
                 </lightning-button>
             </div>
         </div>

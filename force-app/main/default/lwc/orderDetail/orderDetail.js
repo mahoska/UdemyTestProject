@@ -4,7 +4,7 @@
  * @Author             : Anna Makhovskaya
  * @Group              : 
  * @Last Modified By   : Anna Makhovskaya
- * @Last Modified On   : 06.05.2020, 14:06:15
+ * @Last Modified On   : 06.05.2020, 16:54:24
  * @Modification Log   : 
  * Ver       Date            Author      		    Modification
  * 1.0    06.05.2020   Anna Makhovskaya     Initial Version
@@ -24,9 +24,11 @@ export default class OrderDetail extends NavigationMixin(LightningElement) {
         console.log(' c__orderId => ', this.orderId);
     }
 
+
     connectedCallback() {
         this.getOrderDetails();
     }
+
 
     getOrderDetails() {
         orderDetails({
